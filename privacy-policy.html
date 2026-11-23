@@ -1,183 +1,36 @@
-<!doctype html>
-<html lang="tr">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Guncel Portfoy - Gizlilik Politikasi</title>
-  <style>
-    :root {
-      color-scheme: light;
-      --bg: #f4f7f8;
-      --card: #ffffff;
-      --text: #142126;
-      --muted: #5c6b73;
-      --accent: #0aa7b5;
-      --border: #dce5e8;
-    }
+Guncel Portfoy
+Gizlilik Politikasi
+Güncel Portföy, kişisel gelir-gider kaydı ve aylık net durum takibi için geliştirilmiştir. Uygulama, kisisel finans kayitlarinizi takip etmenize yardimci olur.
 
-    * { box-sizing: border-box; }
+Gizlilik Politikası
+Güncel Portföy, ortak gelir-gider kayıtları ve aylık net durum takibi için tasarlanmıştır. Kullanım için internet bağlantısı, e-posta adresi ve şifre ile hesap oluşturma veya giriş yapma gereklidir.
 
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: linear-gradient(180deg, #eef5f6 0%, var(--bg) 100%);
-      color: var(--text);
-      line-height: 1.65;
-    }
+1) Hesap ve Bulutta Saklanan Veriler:
+- E-posta adresiniz ve kimlik doğrulama bilgileriniz Supabase Auth tarafından işlenir. Uygulama şifrenizi cihazda kalıcı olarak saklamaz; oturum anahtarları iOS Keychain içinde saklanır.
+- Gelir-gider tutarları, tarihler, kategoriler ve notlar HTTPS üzerinden Supabase hizmetine gönderilir ve hesabınıza bağlı saklanır. Ekstreler bu kayıtlardan oluşturulur.
+- Aynı hesaba giriş yapan kişiler ortak kayıtları ve kategorileri görebilir, ekleyebilir ve silebilir. Değişiklikler diğer açık cihazlara yaklaşık 3 saniyede bir yansır.
 
-    .wrap {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 40px 20px 64px;
-    }
+2) Cihazda Saklanan Veriler ve Aktarım:
+- Görünüm, tasarruf hedefi, titreşim ve biyometrik kilit tercihleri cihaza özeldir.
+- Önceki sürümden kalan yerel kayıtlar cihazda ayrıca korunur. Bu kayıtlar yalnızca Ayarlar > Ortak Hesap bölümünde onay verdiğinizde buluta aktarılır. Hesaptaki diğer kayıtların yerini almaz.
+- Cihaz yedeklerine dahil edilen yerel veriler iOS ve yedekleme ayarlarınıza bağlıdır.
 
-    .hero {
-      margin-bottom: 24px;
-    }
+3) Silme ve Çıkış:
+- Kayıt silme işlemi ortak hesabı kullanan tüm cihazları etkiler. Tekrar denemelerde silinen kayıtların geri gelmesini önlemek için silme işaretleri sunucuda tutulur.
+- Ayarlar > Ortak Hesap > Hesabı ve Ortak Verileri Sil seçeneği hesabınızı ve uygulamanın etkin bulut veritabanındaki ortak kayıtları kalıcı olarak siler. Hizmet sağlayıcının yedekleme saklama süreleri ayrıca geçerli olabilir.
+- Çıkış yapmak yalnızca bu cihazın oturumunu kapatır. Önceki yerel kayıtlar ve daha önce alınmış dış kopyalar ayrıca silinmelidir. Uygulamayı kaldırmak, bulut hesabını silmez.
 
-    .eyebrow {
-      display: inline-block;
-      padding: 6px 12px;
-      border-radius: 999px;
-      background: rgba(10, 167, 181, 0.12);
-      color: var(--accent);
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-      margin-bottom: 14px;
-    }
+4) Biyometrik Doğrulama ve Güvenlik:
+- Face ID veya Touch ID doğrulamasını iOS yapar. Uygulama yalnızca sonucu alır; biyometrik verilerinize erişmez.
+- Hesabınızı yalnızca ortak verilere erişmesini istediğiniz kişilerle paylaşın.
 
-    h1 {
-      margin: 0 0 10px;
-      font-size: clamp(30px, 4vw, 44px);
-      line-height: 1.1;
-    }
+5) Hizmet Sağlayıcılar ve Geri Bildirim:
+- Supabase, hesap doğrulama ve ortak kayıtların saklanması için kullanılır. Hizmetin teknik işletimi kapsamında bağlantı ve erişim günlükleri işlenebilir.
+- Kayıtlar reklam veya analitik amacıyla paylaşılmaz.
+- Geri bildirim e-postası yalnızca siz gönderirseniz destek adresine ulaşır. Puan verme Apple hizmetleri üzerinden yürütülür.
+- İzin verirseniz yerel bildirimler gösterilebilir. İzni iOS Ayarları üzerinden kapatabilirsiniz.
 
-    .subtitle {
-      max-width: 700px;
-      color: var(--muted);
-      font-size: 18px;
-      margin: 0;
-    }
+İletişim: guncelportfoy@gmail.com
 
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 28px;
-      box-shadow: 0 12px 32px rgba(20, 33, 38, 0.06);
-    }
+Bu politika uygulama güncellemeleriyle değişebilir.
 
-    h2 {
-      margin-top: 0;
-      font-size: 21px;
-    }
-
-    h3 {
-      margin: 28px 0 8px;
-      font-size: 18px;
-    }
-
-    p, li {
-      color: var(--text);
-      font-size: 16px;
-    }
-
-    ul {
-      margin: 10px 0 0 20px;
-      padding: 0;
-    }
-
-    .muted {
-      color: var(--muted);
-    }
-
-    .contact {
-      margin-top: 28px;
-      padding-top: 20px;
-      border-top: 1px solid var(--border);
-    }
-
-    a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-  </style>
-</head>
-<body>
-  <main class="wrap">
-    <section class="hero">
-      <div class="eyebrow">Guncel Portfoy</div>
-      <h1>Gizlilik Politikasi</h1>
-      <p class="subtitle">
-        Guncel Portfoy; portfoy takibi, piyasa takibi ve gelir-gider yonetimi amaciyla gelistirilmistir.
-        Uygulama, kisisel finans kayitlarinizi takip etmenize yardimci olur.
-      </p>
-    </section>
-
-    <section class="card">
-      <h2>Guncel Portfoy Gizlilik Politikasi</h2>
-      <p>
-        Guncel Portfoy, ad, soyad veya telefon numarasi gibi kisisel kimlik bilgilerini istemez.
-        Uygulama iceriginde olusturulan portfoy, islem ve gelir-gider kayitlari agirlikli olarak cihaz uzerinde tutulur.
-      </p>
-
-      <h3>1. Toplanan Veriler</h3>
-      <ul>
-        <li>Portfoy kayitlari, islem gecmisi, grafik gecmisi, gelir-gider kayitlari ve ekstre arsivi cihazinizda saklanir.</li>
-        <li>Geri bildirim gondermeyi tercih ederseniz, yalnizca sizin ilettiginiz mesaj icerigi kullanilir.</li>
-        <li>Face ID veya Touch ID kullanildiginda biyometrik dogrulama iOS tarafindan yapilir. Uygulama biyometrik verinin kendisine erismez.</li>
-      </ul>
-
-      <h3>2. Veri Saklama</h3>
-      <ul>
-        <li>Kullaniciya ait finansal kayitlar cihaz ici depolamada tutulur.</li>
-        <li>Internet baglantisi; piyasa verileri, doviz kurlari ve ilgili fiyat bilgilerini guncellemek icin kullanilir.</li>
-        <li>Uygulama, kullanici portfoy icerigini ve gelir-gider kayitlarini kendisine ait bir uzak sunucuda saklamaz.</li>
-      </ul>
-
-      <h3>3. Ucuncu Taraf Hizmetler</h3>
-      <ul>
-        <li>Uygulama, piyasa verileri ve finansal fiyat bilgileri icin ucuncu taraf veri saglayicilarindan yararlanabilir.</li>
-        <li>Bu hizmetler yalnizca veri saglama amaciyla kullanilir.</li>
-        <li>Uygulama, kullanici kayitlarini reklam veya analitik amaciyla ucuncu taraflarla paylasmaz.</li>
-      </ul>
-
-      <h3>4. Bildirimler</h3>
-      <ul>
-        <li>Bildirim izni verilirse uygulama cihaz uzerinde yerel bildirimler gosterebilir.</li>
-        <li>Bildirim izinleri iOS Ayarlari uzerinden istediginiz zaman kapatilabilir.</li>
-      </ul>
-
-      <h3>5. Guvenlik</h3>
-      <ul>
-        <li>Verileriniz cihazinizin guvenlik mekanizmalari ile korunur.</li>
-        <li>Cihazinizi baskalariyla paylasiyorsaniz biyometrik kilit veya cihaz parolasi kullanmaniz onerilir.</li>
-      </ul>
-
-      <h3>6. Cocuklarin Gizliligi</h3>
-      <p>
-        Uygulama cocuklara yonelik ozel bir veri toplama amaci tasimaz ve bilerek kisisel veri toplamaz.
-      </p>
-
-      <h3>7. Politika Guncellemeleri</h3>
-      <p>
-        Bu gizlilik politikasi uygulama guncellemeleri ile birlikte degisebilir.
-        Guncel surum yayinlandigi anda yururluge girer.
-      </p>
-
-      <div class="contact">
-        <h3>Iletisim</h3>
-        <p class="muted">
-          Gizlilik politikasi ile ilgili sorular icin:
-          <a href="mailto:guncelportfoy@gmail.com">guncelportfoy@gmail.com</a>
-        </p>
-      </div>
-    </section>
-  </main>
-</body>
-</html>
